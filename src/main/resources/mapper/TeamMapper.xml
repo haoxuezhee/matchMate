@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hxt.matchMate.mapper.TeamMapper">
+
+    <resultMap id="BaseResultMap" type="com.hxt.matchMate.bean.Team">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="maxNum" column="maxNum" jdbcType="INTEGER"/>
+            <result property="expireTime" column="expireTime" jdbcType="TIMESTAMP"/>
+            <result property="userId" column="userId" jdbcType="BIGINT"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,description,
+        maxNum,expireTime,userId,
+        status,password,createTime,
+        updateTime,isDelete
+    </sql>
+    <select id="getUsersByTeam" resultType="com.hxt.matchMate.bean.User">
+        select  u.id,u.username,u.userAccount,u.avatarUrl,u.gender
+                from  user u
+                                                          join user_team ut on u.id=ut.userId
+                                                          join team t  on t.id=ut.teamId
+        where t.id = #{teamId} and ut.isDelete = 0
+    </select>
+
+
+</mapper>
